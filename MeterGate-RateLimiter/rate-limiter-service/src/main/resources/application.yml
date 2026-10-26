@@ -1,0 +1,35 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: rate-limiter-service
+
+  datasource:
+    # Yeh connect karega doosre database se: metergate_limiter
+    url: jdbc:mysql://localhost:3306/metergate_limiter?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: metergate_user
+    password: metergate123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

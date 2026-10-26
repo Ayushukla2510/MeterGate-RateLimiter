@@ -1,0 +1,37 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: customer-plan-service
+
+  datasource:
+    # MySQL connection URL: metergate_customer database se connect karega
+    url: jdbc:mysql://localhost:3306/metergate_customer?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: metergate_user
+    password: metergate123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      # ddl-auto: update ka matlab hai agar entity class banegi toh Hibernate table khud bana/update kar dega
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+eureka:
+  instance:
+    # Eureka dashboard par localhost ki jagah IP address show kare
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
+  client:
+    service-url:
+      # Eureka Server kahan baitha hai
+      defaultZone: http://localhost:8761/eureka/
